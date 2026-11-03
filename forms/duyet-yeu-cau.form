@@ -5,12 +5,57 @@
   "executionPlatformVersion": "8.8.0",
   "schemaVersion": 16,
   "components": [
-    { "id": "Text_TieuDe", "type": "text", "text": "### Duyệt yêu cầu cấp giấy xác nhận sinh viên" },
-    { "id": "Field_MSSV", "type": "textfield", "key": "mssv", "label": "MSSV", "readonly": true },
-    { "id": "Field_HoTen", "type": "textfield", "key": "hoTen", "label": "Họ tên", "readonly": true },
-    { "id": "Field_MucDich", "type": "textfield", "key": "mucDich", "label": "Mục đích xin xác nhận", "readonly": true },
-    { "id": "Field_TrangThai", "type": "textfield", "key": "trangThaiHocTap", "label": "Tình trạng học tập (tra cứu tự động)", "readonly": true },
-    { "id": "Field_DongY", "type": "checkbox", "key": "dongY", "label": "Đồng ý cấp giấy xác nhận" },
-    { "id": "Field_GhiChu", "type": "textarea", "key": "ghiChu", "label": "Ghi chú / lý do từ chối" }
+    {
+      "id": "Text_TieuDe",
+      "type": "text",
+      "text": "### Duyệt yêu cầu cấp giấy xác nhận sinh viên"
+    },
+    {
+      "id": "Field_MSSV",
+      "type": "textfield",
+      "key": "mssv",
+      "label": "MSSV",
+      "readonly": true
+    },
+    {
+      "id": "Field_HoTen",
+      "type": "textfield",
+      "key": "hoTen",
+      "label": "Họ tên",
+      "readonly": true
+    },
+    {
+      "id": "Field_MucDich",
+      "type": "textfield",
+      "key": "mucDich",
+      "label": "Mục đích xin xác nhận",
+      "readonly": true
+    },
+    {
+      "id": "Field_LyDo",
+      "type": "textfield",
+      "key": "lyDoDuyetTay",
+      "label": "Lý do chuyển duyệt tay",
+      "readonly": true
+    },
+    {
+      "id": "Field_TrangThai",
+      "type": "textfield",
+      "key": "trangThaiHocTap",
+      "label": "Tình trạng học tập (tra cứu tự động)",
+      "readonly": true
+    },
+    {
+      "id": "Field_DongY",
+      "type": "checkbox",
+      "key": "dongY",
+      "label": "Đồng ý cấp giấy xác nhận"
+    },
+    {
+      "id": "Field_GhiChu",
+      "type": "textarea",
+      "key": "ghiChu",
+      "label": "Ghi chú / lý do từ chối"
+    }
   ]
 }

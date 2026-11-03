@@ -3,6 +3,7 @@
 Chạy:  python src/worker.py      (Ctrl+C để dừng)
 """
 import time
+import uuid
 from datetime import datetime
 
 import camunda_api as api
@@ -13,7 +14,7 @@ WORKER = "nhom16-worker"
 
 def handle_tra_cuu(variables: dict) -> dict:
     mssv = str(variables.get("mssv", "")).strip()
-    kq = tra_cuu(mssv)
+    kq = tra_cuu(mssv, str(variables.get("mucDich", "")))
     print(f"  tra-cuu-mssv: {mssv} -> {kq}")
     return kq
 
@@ -25,7 +26,25 @@ def handle_gui_ket_qua(variables: dict) -> dict:
     return {"soGiay": so, "ngayCap": datetime.now().isoformat(timespec="seconds")}
 
 
-HANDLERS = {"tra-cuu-mssv": handle_tra_cuu, "gui-ket-qua": handle_gui_ket_qua}
+def handle_sinh_pdf(variables: dict) -> dict:
+    # Bản to-be: sinh số giấy + mã xác thực. Task #9 sẽ dựng file PDF/QR thật.
+    now = datetime.now()
+    so = f"XN-{now:%Y%m%d%H%M%S}"
+    ma = uuid.uuid4().hex[:10].upper()
+    print(f"  sinh-giay-pdf: {so}, mã xác thực {ma}")
+    return {"soGiay": so, "maXacThuc": ma, "ngayCap": now.isoformat(timespec="seconds"),
+            "qrUrl": f"https://xacthuc.example.edu.vn/{ma}"}
+
+
+def handle_gui_thong_bao(variables: dict, headers: dict) -> dict:
+    mau = headers.get("mau", "chung")
+    print(f"  gui-thong-bao [{mau}]: tới {variables.get('email', variables.get('mssv'))}"
+          f" ({variables.get('hoTen')}) - {variables.get('soGiay', variables.get('ghiChu', ''))}")
+    return {"trangThaiYeuCau": mau}
+
+
+HANDLERS = {"tra-cuu-mssv": handle_tra_cuu, "gui-ket-qua": handle_gui_ket_qua,
+            "sinh-giay-pdf": handle_sinh_pdf, "gui-thong-bao": handle_gui_thong_bao}
 
 
 def main() -> None:
@@ -42,7 +61,12 @@ def main() -> None:
                 key = job["jobKey"]
                 print(f"[{job_type}] job {key} (instance {job['processInstanceKey']})")
                 try:
-                    api.complete_job(key, handler(job.get("variables", {})))
+                    vars_ = job.get("variables", {})
+                    if job_type == "gui-thong-bao":
+                        out = handler(vars_, job.get("customHeaders", {}))
+                    else:
+                        out = handler(vars_)
+                    api.complete_job(key, out)
                 except Exception as exc:
                     api.fail_job(key, max(job.get("retries", 1) - 1, 0), str(exc))
                     print(f"  thất bại: {exc}")

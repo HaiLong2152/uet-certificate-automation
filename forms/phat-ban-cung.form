@@ -1,0 +1,41 @@
+{
+  "id": "phat-ban-cung",
+  "type": "default",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "schemaVersion": 16,
+  "components": [
+    {
+      "id": "Text_TD",
+      "type": "text",
+      "text": "### Phát bản cứng giấy xác nhận"
+    },
+    {
+      "id": "F_MSSV",
+      "type": "textfield",
+      "key": "mssv",
+      "label": "MSSV",
+      "readonly": true
+    },
+    {
+      "id": "F_HoTen",
+      "type": "textfield",
+      "key": "hoTen",
+      "label": "Họ tên",
+      "readonly": true
+    },
+    {
+      "id": "F_SoGiay",
+      "type": "textfield",
+      "key": "soGiay",
+      "label": "Số giấy",
+      "readonly": true
+    },
+    {
+      "id": "F_GhiChu",
+      "type": "textarea",
+      "key": "ghiChuPhat",
+      "label": "Ghi chú khi phát (người nhận, ngày nhận)"
+    }
+  ]
+}

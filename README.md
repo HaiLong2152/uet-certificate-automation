@@ -1,13 +1,12 @@
-# Student Certificate Automation
+# BTL Khoa học dịch vụ – Nhóm 16
 
-Modeling and automating the UET student confirmation certificate process with Service Blueprint, BPMN and Camunda 8.
-
-Bài tập lớn môn Khoa học dịch vụ – Nhóm 16: mô hình hóa và tự động hóa quy trình **cấp giấy xác nhận sinh viên** (UET) trên Camunda 8.
+Mô hình hóa và tự động hóa quy trình **cấp giấy xác nhận sinh viên** (UET) trên Camunda 8.
 
 | Thư mục | Nội dung |
 | --- | --- |
 | `bpmn/as-is/` | BPMN quy trình hiện tại (mô tả, không chạy) + ảnh PNG – Task #3 |
 | `bpmn/demo/` | Process mẫu chạy được trên Camunda – Task #4 |
+| `bpmn/to-be/` | BPMN quy trình cải tiến, chạy được trên Camunda – Task #5 |
 | `forms/` | Camunda Forms dùng cho user task |
 | `src/` | Python: deploy, khởi tạo instance, job worker, xuất dữ liệu KPI |
 | `docs/` | Tài liệu nhóm (phạm vi, KPI, blueprint…) |
@@ -73,6 +72,20 @@ Xuất thời gian từng bước ra CSV để tính KPI: `python src/kpi.py`, k
 | Sinh PDF và gửi kết quả | Service task, job type `gui-ket-qua` | `src/worker.py` (hiện chỉ ghi log; Task #9 làm PDF và email) |
 
 Biến của process: `mssv`, `hoTen`, `mucDich` (đầu vào); `hopLe`, `trangThaiHocTap` (worker trả về); `dongY`, `ghiChu` (form duyệt); `soGiay`, `ngayCap` (kết quả).
+
+## 5. Process to-be `xac_nhan_sv_tobe`
+
+![to-be](bpmn/to-be/xac_nhan_sv_tobe.png)
+
+Cải tiến so với as-is: bỏ bước lãnh đạo ký và văn thư đóng dấu; tự duyệt khi MSSV đang học và mục đích thuộc danh mục thường gặp (cán bộ chỉ duyệt ngoại lệ); sinh giấy PDF có QR xác thực và gửi email; chỉ phát bản cứng khi sinh viên chọn; nhắc việc sau 4 giờ nếu cán bộ chưa duyệt.
+
+Chạy: `python src/deploy.py`, `python src/worker.py`, rồi `python src/start.py 24020001 "Nguyễn Văn An" "Hồ sơ học bổng"` (tự duyệt, bản điện tử). Thêm tham số `ban-cung` để thử nhánh phát bản cứng, hoặc mục đích `"Khác (cần cán bộ xem xét)"` để thử nhánh duyệt tay. `python src/start.py --batch 20` tạo yêu cầu ngẫu nhiên để lấy số liệu KPI. Muốn chạy lại bản demo cũ, đặt `BTL_PROCESS=xac_nhan_sv_demo`.
+
+| Job type | Việc | Ghi chú |
+| --- | --- | --- |
+| `tra-cuu-mssv` | Tra CSDL, trả `hopLe`, `canDuyetTay`, `email` | `src/sample_db.py` |
+| `sinh-giay-pdf` | Sinh số giấy, mã xác thực, URL QR | Task #9 dựng PDF thật |
+| `gui-thong-bao` | Gửi thông báo, mẫu theo header `mau` | Task #9 gửi email thật |
 
 ## Phân công
 
