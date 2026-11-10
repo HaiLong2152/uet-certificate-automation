@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Defs_ToBe" targetNamespace="http://uet.vnu.edu.vn/btl-khdv/nhom16" exporter="Camunda Modeler" exporterVersion="5.52.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+  xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Defs_ToBe"
+  targetNamespace="http://uet.vnu.edu.vn/btl-khdv/nhom16" exporter="Camunda Modeler"
+  exporterVersion="5.52.0" modeler:executionPlatform="Camunda Cloud"
+  modeler:executionPlatformVersion="8.10.0">
   <bpmn:collaboration id="Collab">
-    <bpmn:participant id="Pool" name="Cấp giấy xác nhận sinh viên (to-be, tự động hóa)" processRef="xac_nhan_sv_tobe" />
+    <bpmn:participant id="Pool" name="Cấp giấy xác nhận sinh viên (to-be, tự động hóa)"
+      processRef="xac_nhan_sv_tobe" />
   </bpmn:collaboration>
   <bpmn:process id="xac_nhan_sv_tobe" name="Cấp giấy xác nhận SV (to-be)" isExecutable="true">
     <bpmn:laneSet id="Lanes">
@@ -111,7 +121,8 @@
       <bpmn:incoming>F_Tay</bpmn:incoming>
       <bpmn:outgoing>F4</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:boundaryEvent id="Timer_Nhac" name="Quá 4 giờ" cancelActivity="false" attachedToRef="Task_Duyet">
+    <bpmn:boundaryEvent id="Timer_Nhac" name="Quá 4 giờ" cancelActivity="false"
+      attachedToRef="Task_Duyet">
       <bpmn:outgoing>F_Nhac</bpmn:outgoing>
       <bpmn:timerEventDefinition>
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT4H</bpmn:timeDuration>
@@ -166,7 +177,8 @@
     <bpmn:sequenceFlow id="F_HopLe" name="Có" sourceRef="GW_HopLe" targetRef="GW_Tay">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=hopLe = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F_KhongHopLe" name="Không" sourceRef="GW_HopLe" targetRef="Task_BaoTuChoiHL" />
+    <bpmn:sequenceFlow id="F_KhongHopLe" name="Không" sourceRef="GW_HopLe"
+      targetRef="Task_BaoTuChoiHL" />
     <bpmn:sequenceFlow id="F3" sourceRef="Task_BaoTuChoiHL" targetRef="End_KhongHopLe" />
     <bpmn:sequenceFlow id="F_Tay" name="Có (ngoại lệ)" sourceRef="GW_Tay" targetRef="Task_Duyet">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=canDuyetTay = true</bpmn:conditionExpression>
@@ -184,16 +196,19 @@
     <bpmn:sequenceFlow id="F8" sourceRef="Task_SinhPDF" targetRef="Task_GuiEmail" />
     <bpmn:sequenceFlow id="F9" sourceRef="Task_GuiEmail" targetRef="GW_BanCung" />
     <bpmn:sequenceFlow id="F_ChiDienTu" name="Không" sourceRef="GW_BanCung" targetRef="End_DaCap" />
-    <bpmn:sequenceFlow id="F_CanBanCung" name="Có" sourceRef="GW_BanCung" targetRef="Task_PhatBanCung">
+    <bpmn:sequenceFlow id="F_CanBanCung" name="Có" sourceRef="GW_BanCung"
+      targetRef="Task_PhatBanCung">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=hinhThuc = "ban-cung"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F10" sourceRef="Task_PhatBanCung" targetRef="End_DaCapBanCung" />
     <bpmn:textAnnotation id="Note1">
-      <bpmn:text>Tự động duyệt khi MSSV đang học và mục đích thuộc danh mục thường gặp; chỉ ngoại lệ mới đến cán bộ.</bpmn:text>
+      <bpmn:text>Tự động duyệt khi MSSV đang học và mục đích thuộc danh mục thường gặp; chỉ ngoại lệ
+        mới đến cán bộ.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="A_Note1" sourceRef="Task_TraCuu" targetRef="Note1" />
     <bpmn:textAnnotation id="Note2">
-      <bpmn:text>Không còn bước lãnh đạo ký và văn thư đóng dấu: giấy điện tử có QR xác thực; bản cứng chỉ cấp khi sinh viên chọn.</bpmn:text>
+      <bpmn:text>Không còn bước lãnh đạo ký và văn thư đóng dấu: giấy điện tử có QR xác thực; bản
+        cứng chỉ cấp khi sinh viên chọn.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="A_Note2" sourceRef="Task_SinhPDF" targetRef="Note2" />
   </bpmn:process>
