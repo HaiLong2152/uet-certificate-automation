@@ -40,6 +40,16 @@ def start_instance(process_id: str, variables: dict) -> dict:
     return _post("/process-instances", json={"processDefinitionId": process_id, "variables": variables})
 
 
+def search_user_tasks(process_instance_key: str) -> list[dict]:
+    """Return created Camunda user tasks for one process instance."""
+    return search("user-tasks", {"processInstanceKey": str(process_instance_key), "state": "CREATED"})
+
+
+def complete_user_task(user_task_key: str, variables: dict) -> None:
+    """Complete a Camunda user task with form variables."""
+    _post(f"/user-tasks/{user_task_key}/completion", json={"variables": variables})
+
+
 def activate_jobs(job_type: str, worker: str, max_jobs: int = 5,
                   timeout_ms: int = 30_000, request_timeout_ms: int = 20_000) -> list[dict]:
     """POST /jobs/activation, long polling tối đa request_timeout_ms."""
